@@ -1,0 +1,11 @@
+add_loop: 72
+end: 216
+enter: 264
+exit: 56
+exit_add: 92
+list: 176
+loop: 20
+loop_end: 52
+main: 0
+string_least: 220
+string_sum: 247

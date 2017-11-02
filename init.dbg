@@ -1,0 +1,95 @@
+.data
+176:list:
+    .word 2, 3, 5, 23, 29, 11, -13, -10, 17, 19
+216:end:
+    .word 999999
+220:string_least:
+    .asciiz "Here be the least number: "
+247:string_sum:
+    .asciiz "Here be ye sum: "
+264:enter:
+    .asciiz "\n"
+
+.text
+0:main:
+
+#load the array start address in reg $a0
+#load the size of array in reg $a1
+0#la $a0, list
+4#la $t4, end
+8#lw $a1, ($t4)
+
+#load the first element in t0 (min)
+12#lw $t0, ($a0)
+
+#initialize the counter to 1
+16#li $t1, 1
+
+20:loop:
+20#    addi $a0, $a0, 4    #increment pointer to array
+24#    lw $t2, 0($a0)      #load next element of array
+
+28#    beq $t2, $a1, exit  #exit at end of array
+
+32#    addi $t1, $t1, 1    #increment counter
+36#    lw $t2, 0($a0)      #load next element of array
+
+40#    bge $t2, $t0, loop_end
+41##...slt $at,$t2,$t0
+45##...beq $at,$zero,$+8
+
+48#    move $t0, $t2
+52:52#loop_end:
+j loop
+
+56:exit:
+
+
+# ADD LOOP
+
+56#la $a0, list
+60#la $t4, end
+64#lw $a1, ($t4)
+68#addi $t3, $0, 0
+
+72:add_loop:
+72#    lw $t1, ($a0)
+76#    beq $a1, $t1, exit_add
+
+80#    add $t3, $t1, $t3
+84#    addi $a0, $a0, 4
+
+88#    j add_loop
+
+92:exit_add:
+
+92#    addi $a0, $t0, 0
+
+96#    li $v0, 4       # print the least value message
+100#    la $a0, string_least
+104#    syscall
+
+108#    li $v0, 1       # print the value
+112#    move $a0, $t0
+116#    syscall
+
+120#    li $v0, 4       # print enter character
+124#    la $a0, enter
+128#    syscall
+
+
+132#    li $v0, 4       # print the sum value message
+136#    la $a0, string_sum
+140#    syscall
+
+144#    li $v0, 1       # print the value
+148#    move $a0, $t3
+152#    syscall
+
+156#    li $v0, 4       # print enter character
+160#    la $a0, enter
+164#    syscall
+
+
+168#    li $v0, 10 #exit program
+172#    syscall
