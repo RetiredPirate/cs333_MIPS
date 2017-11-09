@@ -1,0 +1,35 @@
+.data
+
+#### DO NOT MODIFY ####
+# statically-allocated linked list
+.align 2		#formatting: word-aligned
+40:node1:	.word -5,node3
+48:node2:	.word 17,0
+56:node3:	.word 44,node4
+64:node4:	.word 6,node5
+72:firstElement:
+	.word -9,node1
+80:node5:	.word -21,node2
+
+.text
+0:main:
+
+0#    la $a0, firstElement
+4#    li $t0, 0
+
+8:loop:
+8#    lw $t1, ($a0)
+12#    add $t0, $t0, $t1       # add to sum
+
+16#    addi $a0, $a0, 4        # move to address
+20#    lw $a0, ($a0)         # move to next node
+
+24#    beqz $a0, end
+
+28#    j loop
+32:end:
+
+
+	# exit
+32#	li $v0,10
+36#	syscall
