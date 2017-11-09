@@ -1,0 +1,5 @@
+endPrint: 68
+enter: 76
+main: 0
+print: 32
+read: 4

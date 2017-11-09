@@ -1,0 +1,43 @@
+.data
+76:enter:
+    .asciiz "\n"
+
+
+.text
+0:main:
+
+
+0#move $t0, $sp
+
+4:read:
+4#    li $v0, 5
+8#    syscall
+
+12#    blez $v0, print      # break
+13##...slt $at,$zero,$v0
+17##...beq $at,$zero,$+16
+
+20#    subu $sp, $sp, 4    # push to stack
+24#    sw $v0, ($sp)
+
+28#    j read              # repeat loop
+
+32:print:
+32#    beq $sp, $t0, endPrint
+
+36#    lw $a0, 0($sp)      # print
+40#    li $v0, 1
+44#    syscall
+
+48#    li $v0, 4       # print enter character
+52#    la $a0, enter
+56#    syscall
+
+    # pop
+60#    addiu $sp, $sp, 4
+
+64#    j print
+
+68:endPrint:
+68#    li $v0, 10 #exit program
+72#    syscall
