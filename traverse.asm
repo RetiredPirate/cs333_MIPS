@@ -11,6 +11,9 @@ firstElement:
 	.word -9,node1
 node5:	.word -21,node2
 
+enter:
+    .asciiz "\n"
+
 .text
 main:
 
@@ -18,20 +21,25 @@ main:
     li $t0, 0
 
 loop:
+
     lw $t1, ($a0)
     add $t0, $t0, $t1       # add to sum
 
-    addi $a0, $a0, 4        # move to address
-    lw $a0, ($a0)         # move to next node
+    lw $a0, 4($a0)         # move to next node
 
     beqz $a0, end
 
     j loop
+
 end:
 
 
     li $v0, 1       # print the value
     move $a0, $t0
+    syscall
+
+    li $v0, 4       # print enter character
+    la $a0, enter
     syscall
 
 	# exit

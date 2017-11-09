@@ -1,9 +1,0 @@
-end: 32
-firstElement: 72
-loop: 8
-main: 0
-node1: 40
-node2: 48
-node3: 56
-node4: 64
-node5: 80
