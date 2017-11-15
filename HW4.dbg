@@ -1,0 +1,95 @@
+.data
+
+156:arr:
+    .word 30,-3,37,2876,28,7,-4,-73,-72,76
+    .word 4,65,898,225,773,67437,5523,53,2256
+    .word -44,2,77,2,774,2254,5287,222687,3235
+
+268:endArr:
+    .word -999999
+
+272:enter:
+    .asciiz "\n"
+
+
+.text
+0:main:
+
+0#la $t0, arr         # $t0 outer pointer
+4#lw $t1, ($t0)       # $t1 outer element
+8#la $t2, arr         # $t2 inner pointer
+12#lw $t3, ($t2)       # $t3 inner element
+16#li $t4, 0           # $t4 temp for swaping values
+20#la $t5, endArr      # $t5 is array end address
+24#lw $t6, ($t5)       # $t6 is actual array end value
+# li $t7, arr         # $t7 min value pointer
+# lw $t8, ($t7)       # $t8 min value
+
+
+28:outLoop:
+28#    lw $t1, ($t0)
+32#    beq $t1, $t6, endOutLoop   # break loop if end of array
+
+
+36#    move $t2, $t0           # set up for inner loop
+40#    move $t7, $t0
+44#    lw $t8, ($t7)
+
+    # this loop finds min element and swap with $t1
+48:    inLoop:
+48#        lw $t3, ($t2)
+52#        beq $t3, $t6, endInLoop    # break at end of array
+
+        #lw $t8, $t7
+56#        bge $t3, $t8, next       # if $t3 >= $t8 then skip
+57##...slt $at,$t3,$t8
+61##...beq $at,$zero,$+12
+
+64#        move $t8, $t3           # store min value
+68#        move $t7, $t2           # store min pointer
+
+
+
+72:        next:
+
+72#        addi $t2, $t2, 4            #increment inner pointer
+76#    j inLoop
+80:    endInLoop:
+
+    # swap values at $t0 and $t7
+80#    lw $t1, ($t0)
+84#    lw $t8, ($t7)
+
+88#    sw $t1, ($t7)
+92#    sw $t8, ($t0)
+
+96#100#    addi $t0, $t0, 4    # increment outer pointer
+j outLoop
+104:endOutLoop:
+
+
+# print the sorted array to the console
+104#la $t0, arr         # $t0 array pointer
+
+108:print:
+108#    lw $t1, ($t0)
+112#    beq $t0, $t5, endPrint      # break at end
+
+116#    lw $a0, ($t0)      # print
+120#    li $v0, 1
+124#    syscall
+
+128#    li $v0, 4       # print enter character
+132#    la $a0, enter
+136#    syscall
+
+    # next element
+140#    addi $t0, $t0, 4
+144#
+j print
+148:endPrint:
+
+
+
+148#li $v0, 10 #exit program
+152#syscall

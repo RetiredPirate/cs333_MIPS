@@ -1,0 +1,11 @@
+arr: 156
+endArr: 268
+endInLoop: 80
+endOutLoop: 104
+endPrint: 148
+enter: 272
+inLoop: 48
+main: 0
+next: 72
+outLoop: 28
+print: 108
